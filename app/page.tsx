@@ -382,7 +382,111 @@ export default function Home() {
             </div>
           </div>
         </section>
-        {/* New Products */}
+        <FlashDeal />
+       
+
+        {/* Trending Items */}
+        {/* <section className="bg-gray-100 py-12 flex items-center justify-center">
+          <div className="container px-4">
+            <div className="mb-8 flex items-center justify-between">
+              <h2 className="text-2xl font-bold">Trending Items</h2>
+              <Link
+                href="#"
+                className="flex items-center gap-1 text-sm font-medium text-[#ff5e3a]"
+              >
+                View All <ChevronRight className="h-4 w-4" />
+              </Link>
+            </div>
+            <div className="grid gap-6 md:grid-cols-2">
+              <div className="flex flex-col justify-between rounded-lg bg-white p-6">
+                <div>
+                  <h3 className="text-xl font-bold">
+                    Special
+                    <br />
+                    Limited Edition
+                  </h3>
+                  <p className="mt-2 text-sm text-muted-foreground">
+                    Get the best price for this special offer
+                  </p>
+                </div>
+                <Button className="mt-4 w-fit bg-[#ff5e3a] hover:bg-[#ff5e3a]/90">
+                  Shop Now
+                </Button>
+              </div>
+              <div className="rounded-lg bg-white p-6">
+                <div className="flex gap-4">
+                  <div className="relative h-32 w-32 flex-shrink-0 overflow-hidden rounded-md bg-gray-100">
+                    <Image
+                      src="/placeholder.svg?height=128&width=128"
+                      alt="TV"
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <Badge className="mb-2 w-fit bg-gray-200 text-gray-800">
+                      TV & AUDIO
+                    </Badge>
+                    <h3 className="text-sm font-medium">
+                      OLED Smart TV 55-inch 4K UHD Borderless Smart TV
+                    </h3>
+                    <div className="mt-auto flex items-center gap-2">
+                      <span className="font-medium text-[#ff5e3a]">
+                        $2,299.00
+                      </span>
+                    </div>
+                    <div className="mt-2 flex gap-2">
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        className="h-8 w-8 rounded-full"
+                      >
+                        <Heart className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        className="h-8 w-8 rounded-full"
+                      >
+                        <ShoppingCart className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>*/}
+
+        {/* Save Big Section */}
+        <section className="bg-gray-100 py-12 flex items-center justify-center">
+          <div className="container grid gap-6 px-4 md:grid-cols-2">
+            <div className="flex flex-col justify-center">
+              <h2 className="text-2xl font-bold md:text-3xl">
+                Effortless Shopping
+              </h2>
+              <p className="mt-2 text-muted-foreground">
+                Relax, and discover a world of possibilities. Say
+                goodbye to crowded stores and long lines. With effortless online
+                shopping, you can find everything you need and have it delivered
+                right to your door. Shop smarter, not harder experience the
+                convenience and enjoy more free time.
+              </p>
+              <Button className="mt-6 w-fit bg-[#ff5e3a] hover:bg-[#ff5e3a]/90">
+              Skip the lines, shop online.
+              </Button>
+            </div>
+            <div className="relative h-[540px] w-[600px]" align="right">
+              <Image
+                src="/gallery/delivery.png?height=320&width=600"
+                alt="Online shopping"
+                fill
+                className="rounded-lg"
+              />
+            </div>
+          </div>
+        </section>
+           {/* New Products */}
         <section className="py-12 flex items-center justify-center">
           <div className="container px-4">
             <div className="mb-8 flex items-center justify-between">
@@ -496,219 +600,7 @@ export default function Home() {
             </div>
           </div>
         </section>
-
-        {/* Trending Items */}
-        {/* <section className="bg-gray-100 py-12 flex items-center justify-center">
-          <div className="container px-4">
-            <div className="mb-8 flex items-center justify-between">
-              <h2 className="text-2xl font-bold">Trending Items</h2>
-              <Link
-                href="#"
-                className="flex items-center gap-1 text-sm font-medium text-[#ff5e3a]"
-              >
-                View All <ChevronRight className="h-4 w-4" />
-              </Link>
-            </div>
-            <div className="grid gap-6 md:grid-cols-2">
-              <div className="flex flex-col justify-between rounded-lg bg-white p-6">
-                <div>
-                  <h3 className="text-xl font-bold">
-                    Special
-                    <br />
-                    Limited Edition
-                  </h3>
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    Get the best price for this special offer
-                  </p>
-                </div>
-                <Button className="mt-4 w-fit bg-[#ff5e3a] hover:bg-[#ff5e3a]/90">
-                  Shop Now
-                </Button>
-              </div>
-              <div className="rounded-lg bg-white p-6">
-                <div className="flex gap-4">
-                  <div className="relative h-32 w-32 flex-shrink-0 overflow-hidden rounded-md bg-gray-100">
-                    <Image
-                      src="/placeholder.svg?height=128&width=128"
-                      alt="TV"
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                  <div className="flex flex-col">
-                    <Badge className="mb-2 w-fit bg-gray-200 text-gray-800">
-                      TV & AUDIO
-                    </Badge>
-                    <h3 className="text-sm font-medium">
-                      OLED Smart TV 55-inch 4K UHD Borderless Smart TV
-                    </h3>
-                    <div className="mt-auto flex items-center gap-2">
-                      <span className="font-medium text-[#ff5e3a]">
-                        $2,299.00
-                      </span>
-                    </div>
-                    <div className="mt-2 flex gap-2">
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        className="h-8 w-8 rounded-full"
-                      >
-                        <Heart className="h-4 w-4" />
-                      </Button>
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        className="h-8 w-8 rounded-full"
-                      >
-                        <ShoppingCart className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>*/}
-
-        {/* Save Big Section */}
-        <section className="bg-gray-100 py-12 flex items-center justify-center">
-          <div className="container grid gap-6 px-4 md:grid-cols-2">
-            <div className="flex flex-col justify-center">
-              <h2 className="text-2xl font-bold md:text-3xl">
-                Effortless Shopping
-              </h2>
-              <p className="mt-2 text-muted-foreground">
-                Relax, and discover a world of possibilities. Say
-                goodbye to crowded stores and long lines. With effortless online
-                shopping, you can find everything you need and have it delivered
-                right to your door. Shop smarter, not harder experience the
-                convenience and enjoy more free time.
-              </p>
-              <Button className="mt-6 w-fit bg-[#ff5e3a] hover:bg-[#ff5e3a]/90">
-              Skip the lines, shop online.
-              </Button>
-            </div>
-            <div className="relative h-[540px] w-[600px]" align="right">
-              <Image
-                src="/gallery/delivery.png?height=320&width=600"
-                alt="Online shopping"
-                fill
-                className="rounded-lg"
-              />
-            </div>
-          </div>
-        </section>
-
-        {/* Recommended Products */}
-        <section className="py-12 flex items-center justify-center">
-          <div className="container px-4">
-            <div className="mb-8 flex items-center justify-between">
-              <h2 className="text-2xl font-bold">Recommended Products</h2>
-              <Link
-                href="#"
-                className="flex items-center gap-1 text-sm font-medium text-[#ff5e3a]"
-              >
-                View All <ChevronRight className="h-4 w-4" />
-              </Link>
-            </div>
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-              {[
-                { name: "iPhone 13 Pro", price: "$999.00" },
-                { name: "Fujifilm Instax Camera", price: "$79.99" },
-                {
-                  name: "Portable Bluetooth Speaker",
-                  price: "$119.00",
-                  discount: "$139.99",
-                },
-                { name: "HD Wireless Headphones", price: "$99.99" },
-                { name: "4K OLED Smart TV", price: "$1,299.99" },
-              ].map((product, index) => (
-                <div
-                  key={index}
-                  className="group relative rounded-lg border bg-background p-2"
-                >
-                  <div className="relative mb-2 aspect-square overflow-hidden rounded-md bg-[#0000FF]">
-                    {/*<Image
-                      src={`/placeholder.svg?height=200&width=200&text=Product`}
-                      alt={product.name}
-                      fill
-                      className="object-cover transition-transform duration-300 group-hover:scale-105"
-                    />*/}
-                  </div>
-                  <div className="p-2">
-                    <h3 className="line-clamp-2 text-sm font-medium">
-                      {product.name}
-                    </h3>
-                    <div className="mt-1 flex items-center gap-2">
-                      <span className="font-medium text-[#ff5e3a]">
-                        {product.price}
-                      </span>
-                      {product.discount && (
-                        <span className="text-xs text-muted-foreground line-through">
-                          {product.discount}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* FAQ Section */}
-        <section className="py-12 bg-gray-100">
-          <div className="container px-4">
-            <h2 className="mb-8 text-center text-2xl font-bold md:text-3xl">
-              Frequently Asked Questions
-            </h2>
-            <div className="mx-auto max-w-3xl">
-              <Accordion type="single" collapsible className="w-full">
-                {[
-                  {
-                    question: "What payment methods do you accept?",
-                    answer:
-                      "We accept all major credit cards, PayPal, Apple Pay, and Google Pay. All transactions are secure and encrypted.",
-                  },
-                  {
-                    question: "How long does product shipping take?",
-                    answer:
-                      "Standard shipping takes 3-5 business days. Express shipping (1-2 business days) is available for an additional fee. International shipping times vary by location.",
-                  },
-                  {
-                    question: "Can I track my Loan application?",
-                    answer:
-                      "Yes, once your order ships, you'll receive a tracking number via email that you can use to monitor your package's progress. You can also track your order from your account dashboard.",
-                  },
-                  {
-                    question: "Do you offer international shipping?",
-                    answer:
-                      "Yes, we ship to most countries worldwide. International shipping rates and delivery times vary depending on the destination.",
-                  },
-                  {
-                    question: "Can I track my order?",
-                    answer:
-                      "Yes, once your order ships, you'll receive a tracking number via email that you can use to monitor your package's progress. You can also track your order from your account dashboard.",
-                  },
-                ].map((faq, index) => (
-                  <AccordionItem key={index} value={`item-${index}`}>
-                    <AccordionTrigger className="text-left">
-                      <div className="flex items-center gap-2">
-                        <div className="flex h-6 w-6 items-center justify-center rounded-full bg-[#ff5e3a]/10 text-[#ff5e3a]">
-                          <span className="text-xs">{index + 1}</span>
-                        </div>
-                        {faq.question}
-                      </div>
-                    </AccordionTrigger>
-                    <AccordionContent className="pl-8">
-                      {faq.answer}
-                    </AccordionContent>
-                  </AccordionItem>
-                ))}
-              </Accordion>
-            </div>
-          </div>
-        </section>
+        
 
         {/* Tech Talk 
         <section className="bg-gray-100 py-12">
@@ -808,9 +700,120 @@ export default function Home() {
             </div>
           </div>
         </section>*/}
-        <FlashDeal />
-        {/* Features */}
-        <section className="border-t py-8">
+
+        {/* FAQ Section */}
+        <section className="py-12 bg-gray-100">
+          <div className="container px-4">
+            <h2 className="mb-8 text-center text-2xl font-bold md:text-3xl">
+              Frequently Asked Questions
+            </h2>
+            <div className="mx-auto max-w-3xl">
+              <Accordion type="single" collapsible className="w-full">
+                {[
+                  {
+                    question: "What payment methods do you accept?",
+                    answer:
+                      "We accept all major credit cards, PayPal, Apple Pay, and Google Pay. All transactions are secure and encrypted.",
+                  },
+                  {
+                    question: "How long does product shipping take?",
+                    answer:
+                      "Standard shipping takes 3-5 business days. Express shipping (1-2 business days) is available for an additional fee. International shipping times vary by location.",
+                  },
+                  {
+                    question: "Can I track my Loan application?",
+                    answer:
+                      "Yes, once your order ships, you'll receive a tracking number via email that you can use to monitor your package's progress. You can also track your order from your account dashboard.",
+                  },
+                  {
+                    question: "Do you offer international shipping?",
+                    answer:
+                      "Yes, we ship to most countries worldwide. International shipping rates and delivery times vary depending on the destination.",
+                  },
+                  {
+                    question: "Can I track my order?",
+                    answer:
+                      "Yes, once your order ships, you'll receive a tracking number via email that you can use to monitor your package's progress. You can also track your order from your account dashboard.",
+                  },
+                ].map((faq, index) => (
+                  <AccordionItem key={index} value={`item-${index}`}>
+                    <AccordionTrigger className="text-left">
+                      <div className="flex items-center gap-2">
+                        <div className="flex h-6 w-6 items-center justify-center rounded-full bg-[#ff5e3a]/10 text-[#ff5e3a]">
+                          <span className="text-xs">{index + 1}</span>
+                        </div>
+                        {faq.question}
+                      </div>
+                    </AccordionTrigger>
+                    <AccordionContent className="pl-8">
+                      {faq.answer}
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
+            </div>
+          </div>
+        </section> 
+             
+       
+             {/* Recommended Products */}
+             <section className="py-12 flex items-center justify-center">
+          <div className="container px-4">
+            <div className="mb-8 flex items-center justify-between">
+              <h2 className="text-2xl font-bold">Recommended Products</h2>
+              <Link
+                href="#"
+                className="flex items-center gap-1 text-sm font-medium text-[#ff5e3a]"
+              >
+                View All <ChevronRight className="h-4 w-4" />
+              </Link>
+            </div>
+            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+              {[
+                { name: "iPhone 13 Pro", price: "$999.00" },
+                { name: "Fujifilm Instax Camera", price: "$79.99" },
+                {
+                  name: "Portable Bluetooth Speaker",
+                  price: "$119.00",
+                  discount: "$139.99",
+                },
+                { name: "HD Wireless Headphones", price: "$99.99" },
+                { name: "4K OLED Smart TV", price: "$1,299.99" },
+              ].map((product, index) => (
+                <div
+                  key={index}
+                  className="group relative rounded-lg border bg-background p-2"
+                >
+                  <div className="relative mb-2 aspect-square overflow-hidden rounded-md bg-[#0000FF]">
+                    {/*<Image
+                      src={`/placeholder.svg?height=200&width=200&text=Product`}
+                      alt={product.name}
+                      fill
+                      className="object-cover transition-transform duration-300 group-hover:scale-105"
+                    />*/}
+                  </div>
+                  <div className="p-2">
+                    <h3 className="line-clamp-2 text-sm font-medium">
+                      {product.name}
+                    </h3>
+                    <div className="mt-1 flex items-center gap-2">
+                      <span className="font-medium text-[#ff5e3a]">
+                        {product.price}
+                      </span>
+                      {product.discount && (
+                        <span className="text-xs text-muted-foreground line-through">
+                          {product.discount}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+         {/* Features */}
+         <section className="border-t py-8">
           <div className="container px-4 items-center justify-center">
             <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-4">
               {[
@@ -846,7 +849,6 @@ export default function Home() {
             </div>
           </div>
         </section>
-
         {/* Newsletter */}
         <section className="bg-[#ff5e3a] py-8 text-white">
           <div className="container px-4">
