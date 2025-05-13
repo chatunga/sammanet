@@ -1,17 +1,16 @@
-import Link from "next/link";
-import Image from "next/image";
-import MainLogo from "@/public/logo.png";
+"use client"
+
+import Link from "next/link"
+import Image from "next/image"
+import MainLogo from "@/public/logo.png"
 import {
-  Search,
   ShoppingCart,
   User,
   Heart,
   ChevronRight,
   ChevronLeft,
-  Star,
   Menu,
   MapPin,
-  Phone,
   Facebook,
   Twitter,
   Instagram,
@@ -20,46 +19,38 @@ import {
   Bike,
   BookOpen,
   Car,
-  Gem,
   MoreHorizontal,
   ChevronDown,
   CalendarCheck,
-} from "lucide-react";
+} from "lucide-react"
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import FlashDeal from "./components/page";
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Badge } from "@/components/ui/badge"
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import FlashDeal from "./components/page"
+import { useState } from "react"
 
 export default function Home() {
+  const [isCategoryVisible, setCategoryVisible] = useState(false)
+
+  const toggleCategories = () => {
+    setCategoryVisible((prev: boolean) => !prev)
+  }
   return (
     <div className="flex min-h-screen flex-col">
       {/* Main header */}
-      <header className="w-full border-t-[4px] border-[#0000FF] bg-white py-4">
+      <header className="w-full border-b-[2px] border-b-[#0000FF]  bg-white py-4">
         <div className="container flex items-center justify-between px-4">
           <Link href="/" className="flex items-center space-x-2">
             <span className="text-2xl font-bold">
-              <Image src={MainLogo} alt="Main Logo" width={120} />
+              <Image src={MainLogo || "/placeholder.svg"} alt="Main Logo" width={120} />
             </span>
           </Link>
 
           <div className="relative hidden w-full max-w-md mx-8 lg:flex">
-            <Input
-              type="search"
-              placeholder="Search Products..."
-              className="w-full pr-10 rounded-md border-gray-300"
-            />
-            <Button
-              size="default"
-              variant="default"
-              className="absolute right-0 top-0 h-full"
-            >
+            <Input type="search" placeholder="Search Products..." className="w-full pr-10 rounded-md border-gray-300" />
+            <Button size="default" variant="default" className="absolute right-0 top-0 h-full">
               SEARCH
             </Button>
           </div>
@@ -89,105 +80,49 @@ export default function Home() {
         </div>
       </header>
 
-      {/* Navigation menu */}
-      <nav className="w-full bg-[#ff5e3a] text-white">
-        <div className="container flex items-center justify-between px-4">
-          <div className="flex items-center">
-            <div className="hidden md:flex">
-              <Link href="#" className="px-4 py-3">
-                Home
-              </Link>
-              <Link href="#" className="flex items-center gap-1 px-4 py-3">
-                Shop <ChevronRight className="h-4 w-4" />
-              </Link>
-              <Link href="#" className="px-4 py-3">
-                About Sammanet
-              </Link>
-              <Link href="#" className="px-4 py-3">
-                Blog
-              </Link>
-              <Link href="#" className="px-4 py-3">
-                Contact
-              </Link>
-            </div>
-          </div>
-
-          <div className="hidden md:flex">
-            <Link
-              href="#"
-              className="flex items-center gap-1 px-4 py-3 font-medium"
-            >
-              PROMOTIONS <ChevronDown className="h-4 w-4" />
-            </Link>
-            <Link href="#" className="px-4 py-3 font-medium">
-              LIMITED SALE
-            </Link>
-            <Link href="#" className="px-4 py-3">
-              Best Seller
-            </Link>
-            <Link href="#" className="px-4 py-3">
-              New Arrival
-            </Link>
-          </div>
-
-          <Button variant="ghost" size="icon" className="text-white md:hidden">
-            <Menu className="h-5 w-5" />
-          </Button>
-        </div>
-      </nav>
-
       <main className="flex-1">
         {/* Category Sidebar and Banner Section */}
         <section className="container px-4 py-6">
-          <div className="flex flex-col gap-6 md:flex-row items-center justify-center">
+          <div className="flex flex-col gap-6 md:flex-row">
             {/* Category Sidebar */}
-            <div className="w-full rounded-lg border bg-background p-4 shadow-sm md:w-72">
-              <h2 className="mb-4 text-lg font-bold border-b">
-                All Categories
-              </h2>
-              <ul className="space-y-2">
-                {[
-                  { name: "Electronics", icon: <Tv className="h-5 w-5" /> },
-                  {
-                    name: "Fashion/Apparel",
-                    icon: <Shirt className="h-5 w-5" />,
-                  },
-                  {
-                    name: "Home & Kitchen",
-                    icon: <MapPin className="h-5 w-5" />,
-                  },
-                  {
-                    name: "Health & Beauty",
-                    icon: <Heart className="h-5 w-5" />,
-                  },
-                  {
-                    name: "Sports & Outdoors",
-                    icon: <Bike className="h-5 w-5" />,
-                  },
-                  {
-                    name: "Books & Media",
-                    icon: <BookOpen className="h-5 w-5" />,
-                  },
-                  { name: "Automotive", icon: <Car className="h-5 w-5" /> },
-                  {
-                    name: "More Categories",
-                    icon: <MoreHorizontal className="h-5 w-5" />,
-                  },
-                ].map((category, index) => (
-                  <li key={index}>
-                    <Link
-                      href="#"
-                      className="flex items-center justify-between rounded-md p-2 hover:bg-muted"
-                    >
-                      <div className="flex items-center gap-2">
-                        {category.icon}
-                        <span>{category.name}</span>
-                      </div>
-                      <ChevronRight className="h-4 w-4 text-muted-foreground" />
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+            <div className="relative w-full md:w-72">
+              {/* Mobile Toggle Button */}
+              <button
+                className="md:hidden flex items-center gap-2 p-2 w-full mb-2 bg-[#ff5e3a] text-white rounded-lg"
+                onClick={toggleCategories}
+              >
+                <Menu className="h-5 w-5" />
+                <span>{isCategoryVisible ? "Hide Categories" : "All Categories"}</span>
+              </button>
+
+              {/* Categories List */}
+              <div
+                className={`w-full rounded-lg border bg-background p-4 shadow-sm ${isCategoryVisible ? "block" : "hidden md:block"}`}
+              >
+                <h2 className="mb-4 text-lg font-bold border-b">All Categories</h2>
+                <ul className="space-y-2">
+                  {[
+                    { name: "Electronics", icon: <Tv className="h-5 w-5" /> },
+                    { name: "Fashion/Apparel", icon: <Shirt className="h-5 w-5" /> },
+                    { name: "Home & Kitchen", icon: <MapPin className="h-5 w-5" /> },
+                    { name: "Health & Beauty", icon: <Heart className="h-5 w-5" /> },
+                    { name: "Sports & Outdoors", icon: <Bike className="h-5 w-5" /> },
+                    { name: "Books & Media", icon: <BookOpen className="h-5 w-5" /> },
+                    { name: "Automotive", icon: <Car className="h-5 w-5" /> },
+                    { name: "More Categories", icon: <MoreHorizontal className="h-5 w-5" /> },
+                  ].map((category, index) => (
+                    <li key={index}>
+                      <Link href="#" className="flex items-center justify-between rounded-md p-2 hover:bg-muted">
+                        <div className="flex items-center gap-2">
+                          {category.icon}
+                          <span>{category.name}</span>
+                        </div>
+                        <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
 
             {/* Banner Carousel */}
@@ -197,9 +132,7 @@ export default function Home() {
                 {[1, 2, 3, 4, 5].map((dot, index) => (
                   <div
                     key={index}
-                    className={`h-2 w-2 rounded-full ${
-                      index === 2 ? "bg-[#ff5e3a]" : "bg-white"
-                    }`}
+                    className={`h-2 w-2 rounded-full ${index === 2 ? "bg-[#ff5e3a]" : "bg-white"}`}
                   ></div>
                 ))}
               </div>
@@ -234,20 +167,12 @@ export default function Home() {
             <div className="rounded-lg bg-gray-100 p-6">
               <div className="flex gap-4">
                 <div className="relative h-32 w-32 flex-shrink-0 overflow-hidden rounded-md bg-gray-100">
-                  <Image
-                    src="/placeholder.svg?height=128&width=128"
-                    alt="TV"
-                    fill
-                    className="object-cover"
-                  />
+                  <Image src="/placeholder.svg?height=128&width=128" alt="TV" fill className="object-cover" />
                 </div>
                 <div className="flex flex-col">
                   <h3 className="text-xl font-bold">We offer Instant Loans</h3>
                   <h3 className="text-sm font-medium"></h3>
-                  <Button
-                    size="sm"
-                    className="mt-4 w-fit bg-[#ff5e3a] hover:bg-[#ff5e3a]/90"
-                  >
+                  <Button size="sm" className="mt-4 w-fit bg-[#ff5e3a] hover:bg-[#ff5e3a]/90">
                     Get Started
                   </Button>
                 </div>
@@ -257,20 +182,12 @@ export default function Home() {
             <div className="rounded-lg bg-gray-100 p-6">
               <div className="flex gap-4">
                 <div className="relative h-32 w-32 flex-shrink-0 overflow-hidden rounded-md bg-gray-100">
-                  <Image
-                    src="/placeholder.svg?height=128&width=128"
-                    alt="TV"
-                    fill
-                    className="object-cover"
-                  />
+                  <Image src="/placeholder.svg?height=128&width=128" alt="TV" fill className="object-cover" />
                 </div>
                 <div className="flex flex-col">
                   <h3 className="text-xl font-bold">Flexible Repayment</h3>
                   <h3 className="text-sm font-medium"></h3>
-                  <Button
-                    size="sm"
-                    className="mt-4 w-fit bg-[#ff5e3a] hover:bg-[#ff5e3a]/90"
-                  >
+                  <Button size="sm" className="mt-4 w-fit bg-[#ff5e3a] hover:bg-[#ff5e3a]/90">
                     Get Started
                   </Button>
                 </div>
@@ -281,20 +198,12 @@ export default function Home() {
             <div className="rounded-lg bg-gray-100 p-6">
               <div className="flex gap-4">
                 <div className="relative h-32 w-32 flex-shrink-0 overflow-hidden rounded-md bg-gray-100">
-                  <Image
-                    src="/placeholder.svg?height=128&width=128"
-                    alt="TV"
-                    fill
-                    className="object-cover"
-                  />
+                  <Image src="/placeholder.svg?height=128&width=128" alt="TV" fill className="object-cover" />
                 </div>
                 <div className="flex flex-col">
                   <h3 className="text-xl font-bold">Range of Partner Stores</h3>
                   <h3 className="text-sm font-medium"></h3>
-                  <Button
-                    size="sm"
-                    className="mt-4 w-fit bg-[#ff5e3a] hover:bg-[#ff5e3a]/90"
-                  >
+                  <Button size="sm" className="mt-4 w-fit bg-[#ff5e3a] hover:bg-[#ff5e3a]/90">
                     Get Started
                   </Button>
                 </div>
@@ -305,20 +214,12 @@ export default function Home() {
             <div className="rounded-lg bg-gray-100 p-6">
               <div className="flex gap-4">
                 <div className="relative h-32 w-32 flex-shrink-0 overflow-hidden rounded-md bg-gray-100">
-                  <Image
-                    src="/placeholder.svg?height=128&width=128"
-                    alt="TV"
-                    fill
-                    className="object-cover"
-                  />
+                  <Image src="/placeholder.svg?height=128&width=128" alt="TV" fill className="object-cover" />
                 </div>
                 <div className="flex flex-col">
                   <h3 className="text-xl font-bold">Secure & Confidential</h3>
                   <h3 className="text-sm font-medium"></h3>
-                  <Button
-                    size="sm"
-                    className="mt-4 w-fit bg-[#ff5e3a] hover:bg-[#ff5e3a]/90"
-                  >
+                  <Button size="sm" className="mt-4 w-fit bg-[#ff5e3a] hover:bg-[#ff5e3a]/90">
                     Get Started
                   </Button>
                 </div>
@@ -329,9 +230,7 @@ export default function Home() {
         {/* Testimonials Section (Added as requested) */}
         <section className="bg-gray-100 py-12 flex items-center justify-center">
           <div className="container px-4">
-            <h2 className="mb-8 text-center text-2xl font-bold md:text-3xl">
-              What Our Customers Say
-            </h2>
+            <h2 className="mb-8 text-center text-2xl font-bold md:text-3xl">What Our Customers Say</h2>
             <div className="grid gap-6 md:grid-cols-2">
               {[
                 {
@@ -349,10 +248,7 @@ export default function Home() {
                   rating: 5,
                 },
               ].map((testimonial, index) => (
-                <div
-                  key={index}
-                  className="grid grid-cols-5 rounded-lg bg-white p-6 shadow-sm"
-                >
+                <div key={index} className="grid grid-cols-5 rounded-lg bg-white p-6 shadow-sm">
                   <div className="col-span-2 flex flex-col items-center">
                     <div className="mb-4 flex flex-col items-center">
                       <div className="relative h-48 w-48 overflow-hidden rounded-full bg-gray-200">
@@ -365,12 +261,8 @@ export default function Home() {
                         />
                       </div>
                       <div>
-                        <h3 className="font-medium text-center mt-3">
-                          {testimonial.name}
-                        </h3>
-                        <p className="text-sm text-muted-foreground text-center">
-                          {testimonial.role}
-                        </p>
+                        <h3 className="font-medium text-center mt-3">{testimonial.name}</h3>
+                        <p className="text-sm text-muted-foreground text-center">{testimonial.role}</p>
                       </div>
                     </div>
                   </div>
@@ -383,7 +275,6 @@ export default function Home() {
           </div>
         </section>
         <FlashDeal />
-       
 
         {/* Trending Items */}
         {/* <section className="bg-gray-100 py-12 flex items-center justify-center">
@@ -462,19 +353,13 @@ export default function Home() {
         <section className="bg-gray-100 py-12 flex items-center justify-center">
           <div className="container grid gap-6 px-4 md:grid-cols-2">
             <div className="flex flex-col justify-center">
-              <h2 className="text-2xl font-bold md:text-3xl">
-                Effortless Shopping
-              </h2>
+              <h2 className="text-2xl font-bold md:text-3xl">Effortless Shopping</h2>
               <p className="mt-2 text-muted-foreground">
-                Relax, and discover a world of possibilities. Say
-                goodbye to crowded stores and long lines. With effortless online
-                shopping, you can find everything you need and have it delivered
-                right to your door. Shop smarter, not harder experience the
-                convenience and enjoy more free time.
+                Relax, and discover a world of possibilities. Say goodbye to crowded stores and long lines. With
+                effortless online shopping, you can find everything you need and have it delivered right to your door.
+                Shop smarter, not harder experience the convenience and enjoy more free time.
               </p>
-              <Button className="mt-6 w-fit bg-[#ff5e3a] hover:bg-[#ff5e3a]/90">
-              Skip the lines, shop online.
-              </Button>
+              <Button className="mt-6 w-fit bg-[#ff5e3a] hover:bg-[#ff5e3a]/90">Skip the lines, shop online.</Button>
             </div>
             <div className="relative h-[540px] w-[600px]" align="right">
               <Image
@@ -486,7 +371,7 @@ export default function Home() {
             </div>
           </div>
         </section>
-           {/* New Products */}
+        {/* New Products */}
         <section className="py-12 flex items-center justify-center">
           <div className="container px-4">
             <div className="mb-8 flex items-center justify-between">
@@ -516,7 +401,12 @@ export default function Home() {
                   tag: "NEW",
                   creditSale: "$121.23*/mo ($345.45* deposit)",
                 },
-                { name: "Wireless Headphones", price: "$99.00", tag: "NEW", creditSale: "$121.23*/mo ($345.45* deposit)", },
+                {
+                  name: "Wireless Headphones",
+                  price: "$99.00",
+                  tag: "NEW",
+                  creditSale: "$121.23*/mo ($345.45* deposit)",
+                },
                 {
                   name: "Smart Watch Pro",
                   price: "$349.00",
@@ -524,17 +414,15 @@ export default function Home() {
                   tag: "NEW",
                   creditSale: "$121.23*/mo ($345.45* deposit)",
                 },
-                { name: "Digital Camera", price: "$1,499.99", tag: "NEW", creditSale: "$121.23*/mo ($345.45* deposit)", },
+                {
+                  name: "Digital Camera",
+                  price: "$1,499.99",
+                  tag: "NEW",
+                  creditSale: "$121.23*/mo ($345.45* deposit)",
+                },
               ].map((product, index) => (
-                <div
-                  key={index}
-                  className="group relative rounded-lg border bg-background p-2"
-                >
-                  {product.tag && (
-                    <Badge className="absolute left-3 top-3 bg-[#ff5e3a]">
-                      {product.tag}
-                    </Badge>
-                  )}
+                <div key={index} className="group relative rounded-lg border bg-background p-2">
+                  {product.tag && <Badge className="absolute left-3 top-3 bg-[#ff5e3a]">{product.tag}</Badge>}
                   <div className="relative mb-2 aspect-square overflow-hidden rounded-md bg-[#0000FF]">
                     {/*<Image
                       src={`/placeholder.svg?height=200&width=200&text=Product`}
@@ -543,34 +431,24 @@ export default function Home() {
                       className="object-cover transition-transform duration-300 group-hover:scale-105"
                     />*/}
                     <div className="absolute right-2 top-2 flex flex-col gap-2">
-                      <Button
-                        size="icon"
-                        variant="secondary"
-                        className="h-6 w-16 text-orange-500"
-                      >
+                      <Button size="icon" variant="secondary" className="h-6 w-16 text-orange-500">
                         Credit
                       </Button>
                     </div>
                   </div>
                   <div className="p-2">
-                    <h3 className="line-clamp-2 text-sm font-medium">
-                      {product.name}
-                    </h3>
+                    <h3 className="line-clamp-2 text-sm font-medium">{product.name}</h3>
                     <div className="mt-1 flex items-center gap-2">
-                      <span className="font-medium text-[#ff5e3a]">
-                        {product.price}
-                      </span>
+                      <span className="font-medium text-[#ff5e3a]">{product.price}</span>
                       {product.discount && (
-                        <span className="text-xs text-muted-foreground line-through">
-                          {product.discount}
-                        </span>
+                        <span className="text-xs text-muted-foreground line-through">{product.discount}</span>
                       )}
                     </div>
                     <hr className="my-2" />
                     <p className="text-sm">{product.creditSale}</p>
                     <div className="flex items-center mt-2">
-                    <CalendarCheck color="blue"  size={14}/> &nbsp;
-                    <span className="text-[#0000FF] text-sm">Over 12 Months</span>
+                      <CalendarCheck color="blue" size={14} /> &nbsp;
+                      <span className="text-[#0000FF] text-sm">Over 12 Months</span>
                     </div>
                   </div>
                 </div>
@@ -585,11 +463,7 @@ export default function Home() {
                   key={page}
                   variant={page === 3 ? "default" : "outline"}
                   size="icon"
-                  className={
-                    page === 3
-                      ? "h-8 w-8 bg-[#ff5e3a] hover:bg-[#ff5e3a]/90"
-                      : "h-8 w-8"
-                  }
+                  className={page === 3 ? "h-8 w-8 bg-[#ff5e3a] hover:bg-[#ff5e3a]/90" : "h-8 w-8"}
                 >
                   {page}
                 </Button>
@@ -600,7 +474,6 @@ export default function Home() {
             </div>
           </div>
         </section>
-        
 
         {/* Tech Talk 
         <section className="bg-gray-100 py-12">
@@ -704,9 +577,7 @@ export default function Home() {
         {/* FAQ Section */}
         <section className="py-12 bg-gray-100">
           <div className="container px-4">
-            <h2 className="mb-8 text-center text-2xl font-bold md:text-3xl">
-              Frequently Asked Questions
-            </h2>
+            <h2 className="mb-8 text-center text-2xl font-bold md:text-3xl">Frequently Asked Questions</h2>
             <div className="mx-auto max-w-3xl">
               <Accordion type="single" collapsible className="w-full">
                 {[
@@ -745,26 +616,20 @@ export default function Home() {
                         {faq.question}
                       </div>
                     </AccordionTrigger>
-                    <AccordionContent className="pl-8">
-                      {faq.answer}
-                    </AccordionContent>
+                    <AccordionContent className="pl-8">{faq.answer}</AccordionContent>
                   </AccordionItem>
                 ))}
               </Accordion>
             </div>
           </div>
-        </section> 
-             
-       
-             {/* Recommended Products */}
-             <section className="py-12 flex items-center justify-center">
+        </section>
+
+        {/* Recommended Products */}
+        <section className="py-12 flex items-center justify-center">
           <div className="container px-4">
             <div className="mb-8 flex items-center justify-between">
               <h2 className="text-2xl font-bold">Recommended Products</h2>
-              <Link
-                href="#"
-                className="flex items-center gap-1 text-sm font-medium text-[#ff5e3a]"
-              >
+              <Link href="#" className="flex items-center gap-1 text-sm font-medium text-[#ff5e3a]">
                 View All <ChevronRight className="h-4 w-4" />
               </Link>
             </div>
@@ -780,10 +645,7 @@ export default function Home() {
                 { name: "HD Wireless Headphones", price: "$99.99" },
                 { name: "4K OLED Smart TV", price: "$1,299.99" },
               ].map((product, index) => (
-                <div
-                  key={index}
-                  className="group relative rounded-lg border bg-background p-2"
-                >
+                <div key={index} className="group relative rounded-lg border bg-background p-2">
                   <div className="relative mb-2 aspect-square overflow-hidden rounded-md bg-[#0000FF]">
                     {/*<Image
                       src={`/placeholder.svg?height=200&width=200&text=Product`}
@@ -793,17 +655,11 @@ export default function Home() {
                     />*/}
                   </div>
                   <div className="p-2">
-                    <h3 className="line-clamp-2 text-sm font-medium">
-                      {product.name}
-                    </h3>
+                    <h3 className="line-clamp-2 text-sm font-medium">{product.name}</h3>
                     <div className="mt-1 flex items-center gap-2">
-                      <span className="font-medium text-[#ff5e3a]">
-                        {product.price}
-                      </span>
+                      <span className="font-medium text-[#ff5e3a]">{product.price}</span>
                       {product.discount && (
-                        <span className="text-xs text-muted-foreground line-through">
-                          {product.discount}
-                        </span>
+                        <span className="text-xs text-muted-foreground line-through">{product.discount}</span>
                       )}
                     </div>
                   </div>
@@ -812,8 +668,8 @@ export default function Home() {
             </div>
           </div>
         </section>
-         {/* Features */}
-         <section className="border-t py-8">
+        {/* Features */}
+        <section className="border-t py-8">
           <div className="container px-4 items-center justify-center">
             <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-4">
               {[
@@ -840,9 +696,7 @@ export default function Home() {
                   </div>
                   <div>
                     <h3 className="font-medium">{feature.title}</h3>
-                    <p className="text-sm text-muted-foreground">
-                      {feature.description}
-                    </p>
+                    <p className="text-sm text-muted-foreground">{feature.description}</p>
                   </div>
                 </div>
               ))}
@@ -854,12 +708,8 @@ export default function Home() {
           <div className="container px-4">
             <div className="flex flex-col items-center justify-between gap-4 text-center md:flex-row md:text-left">
               <div>
-                <h2 className="text-xl font-bold">
-                  Subscribe to get our updates
-                </h2>
-                <p className="text-white/80">
-                  Be the first to know about new products and exclusive offers
-                </p>
+                <h2 className="text-xl font-bold">Subscribe to get our updates</h2>
+                <p className="text-white/80">Be the first to know about new products and exclusive offers</p>
               </div>
               <div className="flex w-full max-w-md flex-col gap-2 sm:flex-row">
                 <Input
@@ -867,9 +717,7 @@ export default function Home() {
                   placeholder="Enter your email"
                   className="flex-1 border-white/20 bg-white/10 text-white placeholder:text-white/60"
                 />
-                <Button className="bg-white text-[#ff5e3a] hover:bg-white/90">
-                  Subscribe
-                </Button>
+                <Button className="bg-white text-[#ff5e3a] hover:bg-white/90">Subscribe</Button>
               </div>
             </div>
           </div>
@@ -881,10 +729,10 @@ export default function Home() {
         <div className="container px-4">
           <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-4">
             <div>
-            <Image src={MainLogo} alt="Main Logo" width={160} />
+              <Image src={MainLogo || "/placeholder.svg"} alt="Main Logo" width={160} />
               <p className="mb-4 text-sm text-muted-foreground mt-4">
-                Your one-stop destination for all your tech needs. Quality
-                products, competitive prices, and exceptional service.
+                Your one-stop destination for all your tech needs. Quality products, competitive prices, and exceptional
+                service.
               </p>
               <div className="flex gap-4">
                 <Link href="#" aria-label="Facebook">
@@ -901,18 +749,9 @@ export default function Home() {
             <div>
               <h3 className="mb-4 text-sm font-bold">Shop</h3>
               <ul className="space-y-2 text-sm">
-                {[
-                  "All Products",
-                  "Credit Sales",
-                  "Latest",
-                  "Best Selling",
-                  "Deals & Promotions",
-                ].map((link) => (
+                {["All Products", "Credit Sales", "Latest", "Best Selling", "Deals & Promotions"].map((link) => (
                   <li key={link}>
-                    <Link
-                      href="#"
-                      className="text-muted-foreground hover:text-foreground"
-                    >
+                    <Link href="#" className="text-muted-foreground hover:text-foreground">
                       {link}
                     </Link>
                   </li>
@@ -922,18 +761,9 @@ export default function Home() {
             <div>
               <h3 className="mb-4 text-sm font-bold">Information</h3>
               <ul className="space-y-2 text-sm">
-                {[
-                  "About Us",
-                  "Contact Us",
-                  "Privacy Policy",
-                  "Returns Policy",
-                  "Terms & Conditions",
-                ].map((link) => (
+                {["About Us", "Contact Us", "Privacy Policy", "Returns Policy", "Terms & Conditions"].map((link) => (
                   <li key={link}>
-                    <Link
-                      href="#"
-                      className="text-muted-foreground hover:text-foreground"
-                    >
+                    <Link href="#" className="text-muted-foreground hover:text-foreground">
                       {link}
                     </Link>
                   </li>
@@ -943,18 +773,9 @@ export default function Home() {
             <div>
               <h3 className="mb-4 text-sm font-bold">Customer Service</h3>
               <ul className="space-y-2 text-sm">
-                {[
-                  "My Account",
-                  "Track Order",
-                  "Customer Support",
-                  "Returns & Exchanges",
-                  "FAQ",
-                ].map((link) => (
+                {["My Account", "Track Order", "Customer Support", "Returns & Exchanges", "FAQ"].map((link) => (
                   <li key={link}>
-                    <Link
-                      href="#"
-                      className="text-muted-foreground hover:text-foreground"
-                    >
+                    <Link href="#" className="text-muted-foreground hover:text-foreground">
                       {link}
                     </Link>
                   </li>
@@ -964,11 +785,12 @@ export default function Home() {
           </div>
           <div className="mt-8 border-t pt-8 text-center text-sm text-muted-foreground">
             <p>
-              Copyright &copy; {new Date().getFullYear()} Sammanet | All rights reserved. <span className="text-primary">POWERED BY SHIFT LOJIK</span>
+              Copyright &copy; {new Date().getFullYear()} Sammanet | All rights reserved.{" "}
+              <span className="text-primary">POWERED BY SHIFT LOJIK</span>
             </p>
           </div>
         </div>
       </footer>
     </div>
-  );
+  )
 }
