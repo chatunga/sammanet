@@ -11,9 +11,6 @@ import {
   ChevronLeft,
   Menu,
   MapPin,
-  Facebook,
-  Twitter,
-  Instagram,
   Tv,
   Shirt,
   Bike,
@@ -22,6 +19,10 @@ import {
   MoreHorizontal,
   ChevronDown,
   CalendarCheck,
+  Search,
+  Facebook,
+  Twitter,
+  Instagram,
 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -33,14 +34,19 @@ import { useState } from "react"
 
 export default function Home() {
   const [isCategoryVisible, setCategoryVisible] = useState(false)
+  const [isSearchVisible, setSearchVisible] = useState(false)
 
   const toggleCategories = () => {
     setCategoryVisible((prev: boolean) => !prev)
   }
+
+  const toggleSearch = () => {
+    setSearchVisible((prev: boolean) => !prev)
+  }
   return (
     <div className="flex min-h-screen flex-col">
-      {/* Main header */}
-      <header className="w-full border-b-[2px] border-b-[#0000FF]  bg-white py-4">
+     {/* Main header */}
+      <header className="w-full border-b-[2px] border-b-[#0000FF] bg-white py-4">
         <div className="container flex items-center justify-between px-4">
           <Link href="/" className="flex items-center space-x-2">
             <span className="text-2xl font-bold">
@@ -48,6 +54,7 @@ export default function Home() {
             </span>
           </Link>
 
+          {/* Desktop search bar */}
           <div className="relative hidden w-full max-w-md mx-8 lg:flex">
             <Input type="search" placeholder="Search Products..." className="w-full pr-10 rounded-md border-gray-300" />
             <Button size="default" variant="default" className="absolute right-0 top-0 h-full">
@@ -55,7 +62,12 @@ export default function Home() {
             </Button>
           </div>
 
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-4 lg:gap-6">
+            {/* Mobile search toggle button */}
+            <Button variant="ghost" size="icon" className="lg:hidden" onClick={toggleSearch} aria-label="Toggle search">
+              <Search className="h-6 w-6" />
+            </Button>
+
             <Link href="#" className="flex items-center gap-2">
               <div className="relative">
                 <ShoppingCart className="h-6 w-6" />
@@ -78,6 +90,22 @@ export default function Home() {
             </Link>
           </div>
         </div>
+
+        {/* Mobile search bar - conditionally rendered */}
+        {isSearchVisible && (
+          <div className="container px-4 mt-4 lg:hidden">
+            <div className="relative w-full">
+              <Input
+                type="search"
+                placeholder="Search Products..."
+                className="w-full pr-10 rounded-md border-gray-300"
+              />
+              <Button size="default" variant="default" className="absolute right-0 top-0 h-full">
+                SEARCH
+              </Button>
+            </div>
+          </div>
+        )}
       </header>
 
       <main className="flex-1">

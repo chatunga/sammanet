@@ -7,7 +7,7 @@ const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
   title: "Sammanet",
-  description: "Your one-stop destination for a wide range of products and services. We provide comprehensive support to manufacturers, wholesalers, and retailers, ensuring a seamless online shopping experience. Explore our extensive collection of high-quality products, including electronics, fashion, home decor, beauty essentials, and more. With our user-friendly interface and secure payment options, shopping has never been easier. Join our thriving community of satisfied customers today!",
+  description: "Your one-stop destination for a wide range of products and services.",
 }
 
 export default function RootLayout({
