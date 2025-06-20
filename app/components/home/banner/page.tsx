@@ -103,7 +103,7 @@ export default function Banner() {
       setError(null);
 
       const response = await fetch(
-        "http://92.246.130.25:9090/api/v1/public/product/categories"
+        "https://92.246.130.25:9090/api/v1/public/product/categories"
       );
 
       if (!response.ok) {
