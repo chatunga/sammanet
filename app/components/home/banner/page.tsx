@@ -156,14 +156,7 @@ export default function Banner() {
       return (
         <div className="text-center py-4">
           <p className="text-red-500 text-sm mb-2">{error}</p>
-          <Button
-            size="sm"
-            variant="outline"
-            onClick={fetchCategories}
-            className="text-xs"
-          >
-            Retry
-          </Button>
+          
         </div>
       );
     }
