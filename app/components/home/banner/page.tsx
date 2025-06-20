@@ -1,5 +1,5 @@
-"use client"
-import BannerSlider from "@/components/banner-slider"
+"use client";
+import BannerSlider from "@/components/banner-slider";
 import {
   Bike,
   BookOpen,
@@ -13,83 +13,115 @@ import {
   Tv,
   Package,
   Loader2,
-} from "lucide-react"
-import Link from "next/link"
-import Image from "next/image"
-import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
+} from "lucide-react";
+import Link from "next/link";
+import Image from "next/image";
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
 
 interface Category {
-  id: number
-  category: string
-  description?: string
+  id: number;
+  category: string;
+  description?: string;
 }
 
 export default function Banner() {
-  const [isCategoryVisible, setCategoryVisible] = useState(false)
-  const [mounted, setMounted] = useState(false)
-  const [categories, setCategories] = useState<Category[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  const [isCategoryVisible, setCategoryVisible] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   // Icon mapping for categories
   const getIconForCategory = (categoryName: string | undefined) => {
     if (!categoryName || typeof categoryName !== "string") {
-      return <Package className="h-5 w-5" />
+      return <Package className="h-5 w-5" />;
     }
 
-    const name = categoryName.toLowerCase()
-    if (name.includes("electronic") || name.includes("tv") || name.includes("tech")) {
-      return <Tv className="h-5 w-5" />
+    const name = categoryName.toLowerCase();
+    if (
+      name.includes("electronic") ||
+      name.includes("tv") ||
+      name.includes("tech")
+    ) {
+      return <Tv className="h-5 w-5" />;
     }
-    if (name.includes("fashion") || name.includes("apparel") || name.includes("clothing")) {
-      return <Shirt className="h-5 w-5" />
+    if (
+      name.includes("fashion") ||
+      name.includes("apparel") ||
+      name.includes("clothing")
+    ) {
+      return <Shirt className="h-5 w-5" />;
     }
-    if (name.includes("home") || name.includes("kitchen") || name.includes("house")) {
-      return <MapPin className="h-5 w-5" />
+    if (
+      name.includes("home") ||
+      name.includes("kitchen") ||
+      name.includes("house")
+    ) {
+      return <MapPin className="h-5 w-5" />;
     }
-    if (name.includes("health") || name.includes("beauty") || name.includes("cosmetic")) {
-      return <Heart className="h-5 w-5" />
+    if (
+      name.includes("health") ||
+      name.includes("beauty") ||
+      name.includes("cosmetic")
+    ) {
+      return <Heart className="h-5 w-5" />;
     }
-    if (name.includes("sport") || name.includes("outdoor") || name.includes("fitness")) {
-      return <Bike className="h-5 w-5" />
+    if (
+      name.includes("sport") ||
+      name.includes("outdoor") ||
+      name.includes("fitness")
+    ) {
+      return <Bike className="h-5 w-5" />;
     }
-    if (name.includes("book") || name.includes("media") || name.includes("education")) {
-      return <BookOpen className="h-5 w-5" />
+    if (
+      name.includes("book") ||
+      name.includes("media") ||
+      name.includes("education")
+    ) {
+      return <BookOpen className="h-5 w-5" />;
     }
-    if (name.includes("automotive") || name.includes("car") || name.includes("vehicle")) {
-      return <Car className="h-5 w-5" />
+    if (
+      name.includes("automotive") ||
+      name.includes("car") ||
+      name.includes("vehicle")
+    ) {
+      return <Car className="h-5 w-5" />;
     }
     // Default icon
-    return <Package className="h-5 w-5" />
-  }
+    return <Package className="h-5 w-5" />;
+  };
 
   useEffect(() => {
-    setMounted(true)
-    fetchCategories()
-  }, [])
+    setMounted(true);
+    fetchCategories();
+  }, []);
 
   const fetchCategories = async () => {
     try {
-      setLoading(true)
-      setError(null)
+      setLoading(true);
+      setError(null);
 
-      const response = await fetch("http://92.246.130.25:9090/api/v1/public/product/categories")
+      const response = await fetch(
+        "http://92.246.130.25:9090/api/v1/public/product/categories"
+      );
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const data = await response.json()
+      const data = await response.json();
 
       // Assuming the API returns an array of categories
       // Adjust this based on the actual API response structure
-      const categoriesData = Array.isArray(data) ? data : data.categories || data.data || []
+      const categoriesData = Array.isArray(data)
+        ? data
+        : data.categories || data.data || [];
 
-      setCategories(categoriesData)
+      setCategories(categoriesData);
     } catch (err) {
-      console.error("Error fetching categories:", err)
-      setError("Failed to load categories")
+      console.error("Error fetching categories:", err);
+      setError("Failed to load categories");
 
       // Fallback to default categories on error
       setCategories([
@@ -100,15 +132,15 @@ export default function Banner() {
         { id: 5, category: "Sports & Outdoors" },
         { id: 6, category: "Books & Media" },
         { id: 7, category: "Automotive" },
-      ])
+      ]);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const toggleCategories = () => {
-    setCategoryVisible((prev: boolean) => !prev)
-  }
+    setCategoryVisible((prev: boolean) => !prev);
+  };
 
   const renderCategories = () => {
     if (loading) {
@@ -117,18 +149,23 @@ export default function Banner() {
           <Loader2 className="h-6 w-6 animate-spin" />
           <span className="ml-2">Loading categories...</span>
         </div>
-      )
+      );
     }
 
     if (error) {
       return (
         <div className="text-center py-4">
           <p className="text-red-500 text-sm mb-2">{error}</p>
-          <Button size="sm" variant="outline" onClick={fetchCategories} className="text-xs">
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={fetchCategories}
+            className="text-xs"
+          >
             Retry
           </Button>
         </div>
-      )
+      );
     }
 
     return (
@@ -140,7 +177,7 @@ export default function Banner() {
               className="flex items-center justify-between rounded-md p-2 hover:bg-muted"
             >
               <div className="flex items-center gap-2">
-                {getIconForCategory(category.category)}
+                {/*{getIconForCategory(category.category)}*/}
                 <span>{category.category || "Unnamed Category"}</span>
               </div>
               <ChevronRight className="h-4 w-4 text-muted-foreground" />
@@ -149,7 +186,10 @@ export default function Banner() {
         ))}
         {categories.length > 0 && (
           <li>
-            <Link href="/categories" className="flex items-center justify-between rounded-md p-2 hover:bg-muted">
+            <Link
+              href="/categories"
+              className="flex items-center justify-between rounded-md p-2 hover:bg-muted"
+            >
               <div className="flex items-center gap-2">
                 <MoreHorizontal className="h-5 w-5" />
                 <span>More Categories</span>
@@ -159,8 +199,8 @@ export default function Banner() {
           </li>
         )}
       </ul>
-    )
-  }
+    );
+  };
 
   // Don't render interactive elements until mounted
   if (!mounted) {
@@ -179,7 +219,9 @@ export default function Banner() {
 
               {/* Categories List - Always visible during SSR */}
               <div className="w-full rounded-lg border bg-background p-4 shadow-sm block md:block">
-                <h2 className="mb-4 text-lg font-bold border-b">All Categories</h2>
+                <h2 className="mb-4 text-lg font-bold border-b">
+                  All Categories
+                </h2>
                 <div className="flex items-center justify-center py-8">
                   <Loader2 className="h-6 w-6 animate-spin" />
                   <span className="ml-2">Loading categories...</span>
@@ -192,7 +234,7 @@ export default function Banner() {
           </div>
         </section>
       </div>
-    )
+    );
   }
 
   return (
@@ -208,7 +250,9 @@ export default function Banner() {
               onClick={toggleCategories}
             >
               <Menu className="h-5 w-5" />
-              <span>{isCategoryVisible ? "Hide Categories" : "All Categories"}</span>
+              <span>
+                {isCategoryVisible ? "Hide Categories" : "All Categories"}
+              </span>
             </button>
 
             {/* Categories List */}
@@ -217,7 +261,9 @@ export default function Banner() {
                 isCategoryVisible ? "block" : "hidden md:block"
               }`}
             >
-              <h2 className="mb-4 text-lg font-bold border-b">All Categories</h2>
+              <h2 className="mb-4 text-lg font-bold border-b">
+                All Categories
+              </h2>
               {renderCategories()}
             </div>
           </div>
@@ -228,32 +274,25 @@ export default function Banner() {
       </section>
       {/*Quick Sections */}
       <section className="py-12 border-t border-b flex items-center justify-center">
-        <div className="container grid gap-6 px-4 md:grid-cols-4 lg:grid-cols-4">
+        <div className="container grid gap-6 px-4 md:grid-cols-3 lg:grid-cols-3">
           {/* Loans */}
           <div className="rounded-lg bg-gray-100 p-6">
             <div className="flex gap-4">
-              <div className="relative h-32 w-32 flex-shrink-0 overflow-hidden rounded-md bg-gray-100">
-                <Image src="/placeholder.svg?height=128&width=128" alt="TV" fill className="object-cover" />
+              <div className="relative h-[88px] w-[88px] flex-shrink-0 overflow-hidden rounded-md bg-gray-100">
+                <Image
+                  src="/feature/loan.png"
+                  alt="Security"
+                  fill
+                  className="object-cover"
+                />
               </div>
               <div className="flex flex-col">
                 <h3 className="text-xl font-bold">We offer Instant Loans</h3>
                 <h3 className="text-sm font-medium"></h3>
-                <Button size="sm" className="mt-4 w-fit bg-[#ff5e3a] hover:bg-[#ff5e3a]/90">
-                  Get Started
-                </Button>
-              </div>
-            </div>
-          </div>
-          {/* Repayment */}
-          <div className="rounded-lg bg-gray-100 p-6">
-            <div className="flex gap-4">
-              <div className="relative h-32 w-32 flex-shrink-0 overflow-hidden rounded-md bg-gray-100">
-                <Image src="/placeholder.svg?height=128&width=128" alt="TV" fill className="object-cover" />
-              </div>
-              <div className="flex flex-col">
-                <h3 className="text-xl font-bold">Flexible Repayment</h3>
-                <h3 className="text-sm font-medium"></h3>
-                <Button size="sm" className="mt-4 w-fit bg-[#ff5e3a] hover:bg-[#ff5e3a]/90">
+                <Button
+                  size="sm"
+                  className="mt-4 w-fit bg-[#ff5e3a] hover:bg-[#ff5e3a]/90"
+                >
                   Get Started
                 </Button>
               </div>
@@ -263,13 +302,21 @@ export default function Banner() {
           {/* Partners */}
           <div className="rounded-lg bg-gray-100 p-6">
             <div className="flex gap-4">
-              <div className="relative h-32 w-32 flex-shrink-0 overflow-hidden rounded-md bg-gray-100">
-                <Image src="/placeholder.svg?height=128&width=128" alt="TV" fill className="object-cover" />
+             <div className="relative h-[88px] w-[88px] flex-shrink-0 overflow-hidden rounded-md bg-gray-100">
+                <Image
+                  src="/feature/partners.png"
+                  alt="Security"
+                  fill
+                  className="object-cover"
+                />
               </div>
               <div className="flex flex-col">
                 <h3 className="text-xl font-bold">Range of Partner Stores</h3>
                 <h3 className="text-sm font-medium"></h3>
-                <Button size="sm" className="mt-4 w-fit bg-[#ff5e3a] hover:bg-[#ff5e3a]/90">
+                <Button
+                  size="sm"
+                  className="mt-4 w-fit bg-[#ff5e3a] hover:bg-[#ff5e3a]/90"
+                >
                   Get Started
                 </Button>
               </div>
@@ -279,13 +326,21 @@ export default function Banner() {
           {/* Security Guarantee */}
           <div className="rounded-lg bg-gray-100 p-6">
             <div className="flex gap-4">
-              <div className="relative h-32 w-32 flex-shrink-0 overflow-hidden rounded-md bg-gray-100">
-                <Image src="/placeholder.svg?height=128&width=128" alt="TV" fill className="object-cover" />
+              <div className="relative h-[88px] w-[88px] flex-shrink-0 overflow-hidden rounded-md bg-gray-100">
+                <Image
+                  src="/feature/security.png"
+                  alt="Security"
+                  fill
+                  className="object-cover"
+                />
               </div>
               <div className="flex flex-col">
                 <h3 className="text-xl font-bold">Secure & Confidential</h3>
                 <h3 className="text-sm font-medium"></h3>
-                <Button size="sm" className="mt-4 w-fit bg-[#ff5e3a] hover:bg-[#ff5e3a]/90">
+                <Button
+                  size="sm"
+                  className="mt-4 w-fit bg-[#ff5e3a] hover:bg-[#ff5e3a]/90"
+                >
                   Get Started
                 </Button>
               </div>
@@ -294,5 +349,5 @@ export default function Banner() {
         </div>
       </section>
     </div>
-  )
+  );
 }
