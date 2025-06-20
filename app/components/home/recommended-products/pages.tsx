@@ -136,9 +136,7 @@ export default function RecommendedProducts() {
           </div>
           <div className="text-center py-12">
             <p className="text-red-500 mb-4">{error}</p>
-            <Button onClick={fetchProducts} variant="outline">
-              Try Again
-            </Button>
+            
           </div>
         </div>
       </section>
