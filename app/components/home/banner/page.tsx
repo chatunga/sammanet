@@ -13,10 +13,14 @@ import {
   Tv,
   Package,
   Loader2,
+  CreditCard,
+  Gift,
+  Wallet,
+  Shield,
+  ChevronLeft,
 } from "lucide-react";
 import Link from "next/link";
-import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 
 interface Category {
@@ -26,6 +30,26 @@ interface Category {
 }
 
 export default function Banner() {
+   const scrollContainerRef = useRef<HTMLDivElement>(null)
+
+  const scrollLeft = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({
+        left: -200,
+        behavior: "smooth",
+      })
+    }
+  }
+
+  const scrollRight = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({
+        left: 200,
+        behavior: "smooth",
+      })
+    }
+  } 
+  
   const [isCategoryVisible, setCategoryVisible] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
@@ -103,7 +127,7 @@ export default function Banner() {
       setError(null);
 
       const response = await fetch(
-        "https://92.246.130.25:9090/api/v1/public/product/categories"
+        "http://92.246.130.25:9090/api/v1/public/product/categories"
       );
 
       if (!response.ok) {
@@ -160,7 +184,7 @@ export default function Banner() {
         </div>
       );
     }
-
+  
     return (
       <ul className="space-y-2">
         {categories.map((category) => (
@@ -266,81 +290,56 @@ export default function Banner() {
         </div>
       </section>
       {/*Quick Sections */}
-      <section className="py-12 border-t border-b flex items-center justify-center">
-        <div className="container grid gap-6 px-4 md:grid-cols-3 lg:grid-cols-3">
-          {/* Loans */}
-          <div className="rounded-lg bg-gray-100 p-6">
-            <div className="flex gap-4">
-              <div className="relative h-[88px] w-[88px] flex-shrink-0 overflow-hidden rounded-md bg-gray-100">
-                <Image
-                  src="/feature/loan.png"
-                  alt="Security"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <div className="flex flex-col">
-                <h3 className="text-xl font-bold">We offer Instant Loans</h3>
-                <h3 className="text-sm font-medium"></h3>
-                <Button
-                  size="sm"
-                  className="mt-4 w-fit bg-[#ff5e3a] hover:bg-[#ff5e3a]/90"
-                >
-                  Get Started
-                </Button>
-              </div>
-            </div>
-          </div>
+  <section className="py-12 border-t border-b flex items-center justify-center">
+      <div className="container px-4 relative">
+        {/* Left Navigation Button - Only on small screens */}
+        <Button
+          onClick={scrollLeft}
+          className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white hover:bg-gray-100 text-gray-600 border border-gray-300 rounded-full p-2 h-10 w-10 shadow-md md:hidden"
+        >
+          <ChevronLeft className="w-4 h-4" />
+        </Button>
 
-          {/* Partners */}
-          <div className="rounded-lg bg-gray-100 p-6">
-            <div className="flex gap-4">
-             <div className="relative h-[88px] w-[88px] flex-shrink-0 overflow-hidden rounded-md bg-gray-100">
-                <Image
-                  src="/feature/partners.png"
-                  alt="Security"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <div className="flex flex-col">
-                <h3 className="text-xl font-bold">Range of Partner Stores</h3>
-                <h3 className="text-sm font-medium"></h3>
-                <Button
-                  size="sm"
-                  className="mt-4 w-fit bg-[#ff5e3a] hover:bg-[#ff5e3a]/90"
-                >
-                  Get Started
-                </Button>
-              </div>
-            </div>
-          </div>
+        {/* Mobile: Scrollable Container, Desktop: Grid */}
+        <div
+          ref={scrollContainerRef}
+          className="flex gap-4 overflow-x-auto scrollbar-hide px-12 md:px-0 md:grid md:grid-cols-4 md:overflow-visible"
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+        >
+          {/* Instant Loans */}
+          <Button className="bg-[#ff5e3a] hover:bg-[#ff5e3a]/90 text-white rounded-full px-6 py-4 h-auto flex items-center gap-3 justify-center flex-shrink-0 min-w-fit md:flex-shrink">
+            <CreditCard className="w-6 h-6" />
+            <span className="font-semibold whitespace-nowrap">We offer Instant Loans</span>
+          </Button>
 
-          {/* Security Guarantee */}
-          <div className="rounded-lg bg-gray-100 p-6">
-            <div className="flex gap-4">
-              <div className="relative h-[88px] w-[88px] flex-shrink-0 overflow-hidden rounded-md bg-gray-100">
-                <Image
-                  src="/feature/security.png"
-                  alt="Security"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <div className="flex flex-col">
-                <h3 className="text-xl font-bold">Secure & Confidential</h3>
-                <h3 className="text-sm font-medium"></h3>
-                <Button
-                  size="sm"
-                  className="mt-4 w-fit bg-[#ff5e3a] hover:bg-[#ff5e3a]/90"
-                >
-                  Get Started
-                </Button>
-              </div>
-            </div>
-          </div>
+          {/* Rewards */}
+          <Button className="bg-[#4682b4] hover:bg-[#4682b4]/90 text-white rounded-full px-6 py-4 h-auto flex items-center gap-3 justify-center flex-shrink-0 min-w-fit md:flex-shrink">
+            <Gift className="w-6 h-6" />
+            <span className="font-semibold whitespace-nowrap">Rewards</span>
+          </Button>
+
+          {/* Payment Plans */}
+          <Button className="bg-[#28a745] hover:bg-[#28a745]/90 text-white rounded-full px-6 py-4 h-auto flex items-center gap-3 justify-center flex-shrink-0 min-w-fit md:flex-shrink">
+            <Wallet className="w-6 h-6" />
+            <span className="font-semibold whitespace-nowrap">Payment Plans</span>
+          </Button>
+
+          {/* Security */}
+          <Button className="bg-[#6f42c1] hover:bg-[#6f42c1]/90 text-white rounded-full px-6 py-4 h-auto flex items-center gap-3 justify-center flex-shrink-0 min-w-fit md:flex-shrink">
+            <Shield className="w-6 h-6" />
+            <span className="font-semibold whitespace-nowrap">Secure & Confidential</span>
+          </Button>
         </div>
-      </section>
+
+        {/* Right Navigation Button - Only on small screens */}
+        <Button
+          onClick={scrollRight}
+          className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white hover:bg-gray-100 text-gray-600 border border-gray-300 rounded-full p-2 h-10 w-10 shadow-md md:hidden"
+        >
+          <ChevronRight className="w-4 h-4" />
+        </Button>
+      </div>
+    </section>
     </div>
   );
 }
