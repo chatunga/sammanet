@@ -1,5 +1,6 @@
 "use client"
-import { ChevronRight, Loader2, Package } from "lucide-react"
+
+import { ChevronRight, Package, ShoppingCart, ShoppingCartIcon } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import { useState, useEffect } from "react"
@@ -18,6 +19,7 @@ export default function RecommendedProducts() {
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [source, setSource] = useState<string>("")
 
   useEffect(() => {
     fetchProducts()
@@ -28,58 +30,39 @@ export default function RecommendedProducts() {
       setLoading(true)
       setError(null)
 
-      // Try different endpoint variations
-      const endpoints = [
-        "http://92.246.130.25:9090/api/v1/public/product/products/all",
-        "http://92.246.130.25:9090/api/v1/public/product/products",
-        "http://92.246.130.25:9090/api/v1/public/products",
-      ]
+      // Set a client-side timeout
+      const controller = new AbortController()
+      const timeoutId = setTimeout(() => {
+        controller.abort()
+        console.log("Client-side timeout reached for products")
+      }, 8000) // 8 second client timeout
 
-      let response
-      let lastError
+      const response = await fetch("/api/recommended-products", {
+        signal: controller.signal,
+      })
 
-      for (const endpoint of endpoints) {
-        try {
-          response = await fetch(endpoint, {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Accept: "application/json",
-              // Add common headers that might be required
-              "User-Agent": "Mozilla/5.0 (compatible)",
-            },
-            // Add mode if CORS is an issue
-            mode: "cors",
-          })
+      clearTimeout(timeoutId)
 
-          if (response.ok) {
-            break // Success, exit the loop
-          } else {
-            lastError = new Error(`HTTP error! status: ${response.status} for ${endpoint}`)
-          }
-        } catch (err) {
-          lastError = err
-          continue // Try next endpoint
-        }
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
       }
 
-      if (!response || !response.ok) {
-        throw lastError || new Error("All endpoints failed")
-      }
+      const result = await response.json()
+      console.log("Products response:", result)
 
-      const data = await response.json()
-      console.log("API Response:", data) // Debug log
-
-      // Assuming the API returns an array of products
-      // Adjust this based on the actual API response structure
-      const productsData = Array.isArray(data) ? data : data.products || data.data || data.result || []
-
+      const productsData = result.products || result.data || []
       setProducts(productsData)
-    } catch (err) {
+      setSource(result.source || "unknown")
+    } catch (err: any) {
       console.error("Error fetching products:", err)
-      setError(`Failed to load products: ${err instanceof Error ? err.message : "Unknown error"}`)
 
-      // Fallback to default products on error
+      if (err.name === "AbortError") {
+        setError("Request timed out")
+      } else {
+        setError("Failed to load products")
+      }
+
+      // Set fallback products immediately on any error
       setProducts([
         { id: 1, productName: "iPhone 13 Pro", price: 999.0, image: "/placeholder.svg?height=200&width=200" },
         { id: 2, productName: "Fujifilm Instax Camera", price: 79.99, image: "/placeholder.svg?height=200&width=200" },
@@ -93,6 +76,7 @@ export default function RecommendedProducts() {
         { id: 4, productName: "HD Wireless Headphones", price: 99.99, image: "/placeholder.svg?height=200&width=200" },
         { id: 5, productName: "4K OLED Smart TV", price: 1299.99, image: "/placeholder.svg?height=200&width=200" },
       ])
+      setSource("client_fallback")
     } finally {
       setLoading(false)
     }
@@ -111,12 +95,12 @@ export default function RecommendedProducts() {
         <div className="container px-4">
           <div className="mb-8 flex items-center justify-between">
             <h2 className="text-2xl font-bold">Recommended Products</h2>
-            <Link href="#" className="flex items-center gap-1 text-sm font-medium text-[#ff5e3a]">
+            <Link href="/products" className="flex items-center gap-1 text-sm font-medium text-[#ff5e3a]">
               View All <ChevronRight className="h-4 w-4" />
             </Link>
           </div>
           <div className="flex items-center justify-center py-12">
-            <Loader2 className="h-8 w-8 animate-spin" />
+            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-[#ff5e3a]"></div>
             <span className="ml-2">Loading products...</span>
           </div>
         </div>
@@ -124,19 +108,21 @@ export default function RecommendedProducts() {
     )
   }
 
-  if (error) {
+  if (error && products.length === 0) {
     return (
       <section className="py-12 flex items-center justify-center">
         <div className="container px-4">
           <div className="mb-8 flex items-center justify-between">
             <h2 className="text-2xl font-bold">Recommended Products</h2>
-            <Link href="#" className="flex items-center gap-1 text-sm font-medium text-[#ff5e3a]">
+            <Link href="/products" className="flex items-center gap-1 text-sm font-medium text-[#ff5e3a]">
               View All <ChevronRight className="h-4 w-4" />
             </Link>
           </div>
           <div className="text-center py-12">
             <p className="text-red-500 mb-4">{error}</p>
-            
+            <Button onClick={fetchProducts} className="bg-[#ff5e3a] hover:bg-[#ff5e3a]/90">
+              Try Again
+            </Button>
           </div>
         </div>
       </section>
@@ -156,11 +142,10 @@ export default function RecommendedProducts() {
           <div className="text-center py-12">
             <div className="mx-auto max-w-md">
               <div className="mb-4">
-                <Package className="mx-auto h-12 w-12 text-gray-400" />
+                <ShoppingCartIcon className="mx-auto h-12 w-12 text-gray-400" />
               </div>
               <h3 className="text-lg font-medium text-gray-900 mb-2">No Products Found</h3>
               <p className="text-gray-500 mb-4">No products found for this category or section</p>
-
             </div>
           </div>
         </div>
@@ -179,6 +164,14 @@ export default function RecommendedProducts() {
               View All <ChevronRight className="h-4 w-4" />
             </Link>
           </div>
+
+          {/* Show error message if there was an error but we have fallback data */}
+          {error && products.length > 0 && (
+            <div className="mb-4 text-sm text-amber-600 bg-amber-50 p-3 rounded">
+              {error} - showing default products
+            </div>
+          )}
+
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
             {products.slice(0, 10).map((product) => (
               <Link
