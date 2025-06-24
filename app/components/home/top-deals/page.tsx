@@ -8,7 +8,20 @@ import { useState, useEffect } from "react";
 export default function TopDeals() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
-  const productsPerSlide = 3;
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Detect screen size
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkScreenSize();
+    window.addEventListener("resize", checkScreenSize);
+    return () => window.removeEventListener("resize", checkScreenSize);
+  }, []);
+
+  const productsPerSlide = isMobile ? 1 : 3;
   const allProducts = [
     {
       name: "Tablet Pro 10.2 (2022)",
@@ -75,18 +88,26 @@ export default function TopDeals() {
   useEffect(() => {
     if (!isAutoPlaying) return;
 
-    const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % totalSlides);
-    }, 4000); // Change slide every 4 seconds
+    const interval = setInterval(
+      () => {
+        setCurrentSlide((prev) => (prev + 1) % totalSlides);
+      },
+      isMobile ? 3000 : 4000 // Faster on mobile
+    );
 
     return () => clearInterval(interval);
-  }, [currentSlide, isAutoPlaying, totalSlides]);
+  }, [currentSlide, isAutoPlaying, totalSlides, isMobile]);
+
+  // Reset slide when screen size changes
+  useEffect(() => {
+    setCurrentSlide(0);
+  }, [isMobile]);
 
   // Pause auto-play when user interacts
   const handleUserInteraction = () => {
     setIsAutoPlaying(false);
-    // Resume auto-play after 10 seconds of no interaction
-    setTimeout(() => setIsAutoPlaying(true), 10000);
+    // Resume auto-play after 8 seconds on mobile, 10 seconds on desktop
+    setTimeout(() => setIsAutoPlaying(true), isMobile ? 8000 : 10000);
   };
 
   const nextSlide = () => {
@@ -106,13 +127,22 @@ export default function TopDeals() {
 
   return (
     <>
-      <section className="py-12 flex items-center justify-center border-2 border-gray-200 rounded-lg mx-4 my-6">
-        <div className="container px-4">
-          <div className="mb-8 flex items-center justify-between">
-            <h2 className="text-2xl font-bold">Our Top Credit Deals</h2>
+      <section className="py-6 md:py-12 flex items-center justify-center border-2 border-gray-200 rounded-lg mx-2 md:mx-4 my-4 md:my-6">
+        <div className="container px-3 md:px-4">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 md:mb-6 gap-3 md:gap-4">
+            <div>
+              <h2 className="text-xl md:text-2xl font-bold text-black-600 mb-1">
+                Credit Deals
+              </h2>
+              <p className="text-sm md:text-base text-muted-foreground">
+                Our top Credit Deals, Get in touch for more information!
+              </p>
+            </div>
             <div className="flex items-center gap-2">
-              <span className="text-sm text-muted-foreground">Sort by:</span>
-              <select className="rounded-md border border-input bg-background px-3 py-1 text-sm">
+              <span className="text-xs md:text-sm text-muted-foreground">
+                Sort by:
+              </span>
+              <select className="rounded-md border border-input bg-background px-2 md:px-3 py-1 text-xs md:text-sm">
                 <option>All Categories</option>
                 <option>Electronics</option>
                 <option>Smartphones</option>
@@ -125,37 +155,41 @@ export default function TopDeals() {
           {/* Slider Container */}
           <div className="relative mt-6">
             {/* Navigation Buttons */}
-            <div className="absolute -left-4 top-1/2 -translate-y-1/2 z-10">
+            <div className="absolute -left-2 md:-left-4 top-1/2 -translate-y-1/2 z-10">
               <Button
                 variant="outline"
                 size="icon"
-                className="h-10 w-10 rounded-full bg-white shadow-lg hover:bg-gray-50"
+                className="h-8 w-8 md:h-10 md:w-10 rounded-full bg-white shadow-lg hover:bg-gray-50"
                 onClick={prevSlide}
               >
-                <ChevronLeft className="h-5 w-5" />
+                <ChevronLeft className="h-4 w-4 md:h-5 md:w-5" />
               </Button>
             </div>
 
-            <div className="absolute -right-4 top-1/2 -translate-y-1/2 z-10">
+            <div className="absolute -right-2 md:-right-4 top-1/2 -translate-y-1/2 z-10">
               <Button
                 variant="outline"
                 size="icon"
-                className="h-10 w-10 rounded-full bg-white shadow-lg hover:bg-gray-50"
+                className="h-8 w-8 md:h-10 md:w-10 rounded-full bg-white shadow-lg hover:bg-gray-50"
                 onClick={nextSlide}
               >
-                <ChevronRight className="h-5 w-5" />
+                <ChevronRight className="h-4 w-4 md:h-5 md:w-5" />
               </Button>
             </div>
 
             {/* Products Grid */}
-            <div className="overflow-hidden">
+            <div className="overflow-hidden px-4 md:px-0">
               <div
                 className="flex transition-transform duration-300 ease-in-out"
                 style={{ transform: `translateX(-${currentSlide * 100}%)` }}
               >
                 {Array.from({ length: totalSlides }).map((_, slideIndex) => (
                   <div key={slideIndex} className="w-full flex-shrink-0">
-                    <div className="grid grid-cols-3 gap-4">
+                    <div
+                      className={`gap-4 ${
+                        isMobile ? "grid grid-cols-1" : "grid grid-cols-3"
+                      }`}
+                    >
                       {allProducts
                         .slice(
                           slideIndex * productsPerSlide,
@@ -164,7 +198,7 @@ export default function TopDeals() {
                         .map((product, index) => (
                           <div
                             key={`${slideIndex}-${index}`}
-                            className="group relative rounded-lg border bg-background p-2"
+                            className="group relative rounded-lg border bg-background p-2 mx-auto max-w-sm md:max-w-none"
                           >
                             {product.tag && (
                               <Badge className="absolute left-3 top-3 bg-[#ff5e3a] z-10">
@@ -181,20 +215,13 @@ export default function TopDeals() {
                                   Credit
                                 </Button>
                               </div>
-                              {/* <Image
-                              src={product.image || "/placeholder.svg"}
-                              alt={product.name}
-                              width={200}
-                              height={200}
-                              className="object-cover w-full h-[160px] rounded-md"
-                              />*/}
                             </div>
                             <div className="p-2">
-                              <h3 className="line-clamp-2 text-sm font-medium">
+                              <h3 className="line-clamp-2 text-sm md:text-base font-medium">
                                 {product.name}
                               </h3>
                               <div className="mt-1 flex items-center gap-2">
-                                <span className="font-medium text-[#ff5e3a]">
+                                <span className="font-medium text-[#ff5e3a] text-sm md:text-base">
                                   {product.price}
                                 </span>
                                 {product.discount && (
@@ -204,10 +231,16 @@ export default function TopDeals() {
                                 )}
                               </div>
                               <hr className="my-2" />
-                              <p className="text-sm">{product.creditSale}</p>
+                              <p className="text-xs md:text-sm">
+                                {product.creditSale}
+                              </p>
                               <div className="flex items-center mt-2">
-                                <CalendarCheck color="blue" size={14} /> &nbsp;
-                                <span className="text-[#0000FF] text-sm">
+                                <CalendarCheck
+                                  color="blue"
+                                  size={isMobile ? 12 : 14}
+                                />{" "}
+                                &nbsp;
+                                <span className="text-[#0000FF] text-xs md:text-sm">
                                   Over 12 Months
                                 </span>
                               </div>
@@ -222,7 +255,7 @@ export default function TopDeals() {
           </div>
 
           {/* Slide Indicators */}
-          <div className="mt-8 flex items-center justify-center gap-2">
+          <div className="mt-6 md:mt-8 flex items-center justify-center gap-1 md:gap-2">
             {Array.from({ length: totalSlides }).map((_, index) => (
               <Button
                 key={index}
@@ -230,8 +263,8 @@ export default function TopDeals() {
                 size="icon"
                 className={
                   index === currentSlide
-                    ? "h-8 w-8 bg-[#ff5e3a] hover:bg-[#ff5e3a]/90"
-                    : "h-8 w-8"
+                    ? "h-6 w-6 md:h-8 md:w-8 bg-[#ff5e3a] hover:bg-[#ff5e3a]/90 text-xs md:text-sm"
+                    : "h-6 w-6 md:h-8 md:w-8 text-xs md:text-sm"
                 }
                 onClick={() => {
                   handleUserInteraction();

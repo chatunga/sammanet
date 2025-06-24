@@ -119,17 +119,17 @@ const CountdownTimer = ({ endTime }: { endTime: Date }) => {
   }
 
   return (
-    <div className="flex items-center gap-2 text-xl md:text-2xl font-bold">
+    <div className="flex items-center gap-2 text-lg md:text-2xl font-bold">
       <div className="flex gap-1">
-        <div className="bg-orange-500 text-white rounded px-2 py-1 min-w-[2.5rem] text-center">
+        <div className="bg-orange-500 text-white rounded px-2 py-1 min-w-[2rem] md:min-w-[2.5rem] text-center text-sm md:text-base">
           {formatTime(timeLeft.hours)}
         </div>
         <span className="text-red-500">:</span>
-        <div className="bg-orange-500 text-white rounded px-2 py-1 min-w-[2.5rem] text-center">
+        <div className="bg-orange-500 text-white rounded px-2 py-1 min-w-[2rem] md:min-w-[2.5rem] text-center text-sm md:text-base">
           {formatTime(timeLeft.minutes)}
         </div>
         <span className="text-red-500">:</span>
-        <div className="bg-orange-500 text-white rounded px-2 py-1 min-w-[2.5rem] text-center">
+        <div className="bg-orange-500 text-white rounded px-2 py-1 min-w-[2rem] md:min-w-[2.5rem] text-center text-sm md:text-base">
           {formatTime(timeLeft.seconds)}
         </div>
       </div>
@@ -142,10 +142,12 @@ const ProductCard = ({ product }: { product: (typeof flashDealProducts)[0] }) =>
   const discountPercentage = calculateDiscount(product.originalPrice, product.discountedPrice)
 
   return (
-    <Card className="h-full flex flex-col">
-      <div className="relative p-4">
-        <Badge className="absolute top-2 right-2 bg-orange-500 hover:bg-orange-600">-{discountPercentage}%</Badge>
-        <div className="p-4 mb-2 aspect-square overflow-hidden rounded-md bg-[#0000FF]">
+    <Card className="h-full flex flex-col mx-auto max-w-sm md:max-w-none">
+      <div className="relative p-3 md:p-4">
+        <Badge className="absolute top-2 right-2 bg-orange-500 hover:bg-orange-600 text-xs md:text-sm">
+          -{discountPercentage}%
+        </Badge>
+        <div className="p-3 md:p-4 mb-2 aspect-square overflow-hidden rounded-md bg-[#0000FF]">
           {/* <Image
             src={product.image || "/placeholder.svg"}
             alt={product.name}
@@ -155,17 +157,19 @@ const ProductCard = ({ product }: { product: (typeof flashDealProducts)[0] }) =>
           />*/}
         </div>
       </div>
-      <CardContent className="flex-grow pt-4">
-        <h3 className="font-semibold text-lg line-clamp-2 mb-1">{product.name}</h3>
-        <p className="text-sm text-muted-foreground line-clamp-2 mb-2">{product.description}</p>
+      <CardContent className="flex-grow pt-2 md:pt-4 px-3 md:px-6">
+        <h3 className="font-semibold text-base md:text-lg line-clamp-2 mb-1">{product.name}</h3>
+        <p className="text-xs md:text-sm text-muted-foreground line-clamp-2 mb-2">{product.description}</p>
         <div className="flex items-baseline gap-2 mt-2">
-          <span className="text-lg font-bold text-orange-500">${product.discountedPrice.toFixed(2)}</span>
-          <span className="text-sm text-muted-foreground line-through">${product.originalPrice.toFixed(2)}</span>
+          <span className="text-base md:text-lg font-bold text-orange-500">${product.discountedPrice.toFixed(2)}</span>
+          <span className="text-xs md:text-sm text-muted-foreground line-through">
+            ${product.originalPrice.toFixed(2)}
+          </span>
         </div>
       </CardContent>
-      <CardFooter className="pt-0">
-        <Button className="w-full bg-orange-500 hover:bg-orange-600">
-          <ShoppingCart className="h-4 w-4 mr-2" />
+      <CardFooter className="pt-0 px-3 md:px-6">
+        <Button className="w-full bg-orange-500 hover:bg-orange-600 text-sm md:text-base py-2">
+          <ShoppingCart className="h-3 w-3 md:h-4 md:w-4 mr-2" />
           Add to Cart
         </Button>
       </CardFooter>
@@ -176,7 +180,20 @@ const ProductCard = ({ product }: { product: (typeof flashDealProducts)[0] }) =>
 export default function FlashDeal() {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [isAutoPlaying, setIsAutoPlaying] = useState(true)
-  const productsPerSlide = 3
+  const [isMobile, setIsMobile] = useState(false)
+
+  // Detect screen size
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+
+    checkScreenSize()
+    window.addEventListener("resize", checkScreenSize)
+    return () => window.removeEventListener("resize", checkScreenSize)
+  }, [])
+
+  const productsPerSlide = isMobile ? 1 : 3
   const totalSlides = Math.ceil(flashDealProducts.length / productsPerSlide)
 
   // Set flash deal end time to 24 hours from now
@@ -190,18 +207,26 @@ export default function FlashDeal() {
   useEffect(() => {
     if (!isAutoPlaying) return
 
-    const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % totalSlides)
-    }, 4000) // Change slide every 4 seconds
+    const interval = setInterval(
+      () => {
+        setCurrentSlide((prev) => (prev + 1) % totalSlides)
+      },
+      isMobile ? 3000 : 4000,
+    ) // Faster on mobile
 
     return () => clearInterval(interval)
-  }, [currentSlide, isAutoPlaying, totalSlides])
+  }, [currentSlide, isAutoPlaying, totalSlides, isMobile])
+
+  // Reset slide when screen size changes
+  useEffect(() => {
+    setCurrentSlide(0)
+  }, [isMobile])
 
   // Pause auto-play when user interacts
   const handleUserInteraction = () => {
     setIsAutoPlaying(false)
-    // Resume auto-play after 10 seconds of no interaction
-    setTimeout(() => setIsAutoPlaying(true), 10000)
+    // Resume auto-play after 8 seconds on mobile, 10 seconds on desktop
+    setTimeout(() => setIsAutoPlaying(true), isMobile ? 8000 : 10000)
   }
 
   const nextSlide = () => {
@@ -215,51 +240,51 @@ export default function FlashDeal() {
   }
 
   return (
-    <section className="py-8 px-4 md:px-6 lg:px-8 bg-white border-2 border-gray-200 rounded-lg mx-4 my-6">
+    <section className="py-6 md:py-8 px-3 md:px-6 lg:px-8 bg-white border-2 border-gray-200 rounded-lg mx-2 md:mx-4 my-4 md:my-6">
       <div className="max-w-8xl mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 md:mb-6 gap-3 md:gap-4">
           <div>
-            <h2 className="text-2xl md:text-2xl font-bold text-black-600 mb-1">Flash Deals</h2>
-            <p className="text-muted-foreground">Incredible savings for a limited time only!</p>
+            <h2 className="text-xl md:text-2xl font-bold text-black-600 mb-1">Flash Deals</h2>
+            <p className="text-sm md:text-base text-muted-foreground">Incredible savings for a limited time only!</p>
           </div>
           <CountdownTimer endTime={endTime} />
         </div>
         <hr />
 
         {/* Slider Container */}
-        <div className="relative mt-6">
+        <div className="relative mt-4 md:mt-6">
           {/* Navigation Buttons */}
-          <div className="absolute -left-4 top-1/2 -translate-y-1/2 z-10">
+          <div className="absolute -left-2 md:-left-4 top-1/2 -translate-y-1/2 z-10">
             <Button
               variant="outline"
               size="icon"
-              className="h-10 w-10 rounded-full bg-white shadow-lg hover:bg-gray-50"
+              className="h-8 w-8 md:h-10 md:w-10 rounded-full bg-white shadow-lg hover:bg-gray-50"
               onClick={prevSlide}
             >
-              <ChevronLeft className="h-5 w-5" />
+              <ChevronLeft className="h-4 w-4 md:h-5 md:w-5" />
             </Button>
           </div>
 
-          <div className="absolute -right-4 top-1/2 -translate-y-1/2 z-10">
+          <div className="absolute -right-2 md:-right-4 top-1/2 -translate-y-1/2 z-10">
             <Button
               variant="outline"
               size="icon"
-              className="h-10 w-10 rounded-full bg-white shadow-lg hover:bg-gray-50"
+              className="h-8 w-8 md:h-10 md:w-10 rounded-full bg-white shadow-lg hover:bg-gray-50"
               onClick={nextSlide}
             >
-              <ChevronRight className="h-5 w-5" />
+              <ChevronRight className="h-4 w-4 md:h-5 md:w-5" />
             </Button>
           </div>
 
           {/* Products Grid */}
-          <div className="overflow-hidden">
+          <div className="overflow-hidden px-4 md:px-0">
             <div
               className="flex transition-transform duration-300 ease-in-out"
               style={{ transform: `translateX(-${currentSlide * 100}%)` }}
             >
               {Array.from({ length: totalSlides }).map((_, slideIndex) => (
                 <div key={slideIndex} className="w-full flex-shrink-0">
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className={`grid gap-4 ${isMobile ? "grid-cols-1" : "grid-cols-3"}`}>
                     {flashDealProducts
                       .slice(slideIndex * productsPerSlide, (slideIndex + 1) * productsPerSlide)
                       .map((product) => (
@@ -273,13 +298,17 @@ export default function FlashDeal() {
         </div>
 
         {/* Slide Indicators */}
-        <div className="mt-8 flex items-center justify-center gap-2">
+        <div className="mt-6 md:mt-8 flex items-center justify-center gap-1 md:gap-2">
           {Array.from({ length: totalSlides }).map((_, index) => (
             <Button
               key={index}
               variant={index === currentSlide ? "default" : "outline"}
               size="icon"
-              className={index === currentSlide ? "h-8 w-8 bg-orange-500 hover:bg-orange-600" : "h-8 w-8"}
+              className={
+                index === currentSlide
+                  ? "h-6 w-6 md:h-8 md:w-8 bg-orange-500 hover:bg-orange-600 text-xs md:text-sm"
+                  : "h-6 w-6 md:h-8 md:w-8 text-xs md:text-sm"
+              }
               onClick={() => {
                 handleUserInteraction()
                 setCurrentSlide(index)
@@ -290,8 +319,11 @@ export default function FlashDeal() {
           ))}
         </div>
 
-        {/*<div className="mt-8 text-center">
-          <Button variant="outline" className="border-blue-800 text-blue-800 hover:bg-blue-800 hover:text-white">
+        {/*<div className="mt-6 md:mt-8 text-center">
+          <Button
+            variant="outline"
+            className="border-blue-800 text-blue-800 hover:bg-blue-800 hover:text-white text-sm md:text-base px-4 md:px-6 py-2"
+          >
             View All Flash Deals
           </Button>
         </div>*/}
