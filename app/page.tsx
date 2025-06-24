@@ -27,7 +27,19 @@ export default function Home() {
             <TestimonialSlider />
           </div>
         </section>
-        <FlashDeal />
+
+        <section className="w-full py-8">
+          <div className="container mx-auto px-4">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="w-full">
+                <FlashDeal />
+              </div>
+              <div className="w-full">
+                <TopDeals />
+              </div>
+            </div>
+          </div>
+        </section>
         <SaveBig />
         <TopDeals />
         <FrequentAskedQuestions />
