@@ -10,6 +10,7 @@ import FrequentAskedQuestions from "./components/home/faq/page";
 import RecommendedProducts from "./components/home/recommended-products/pages";
 import Features from "./components/home/features/pages";
 import Footer from "./components/home/footer/page";
+import BedBanner from "./components/home/advert-banners/page";
 
 export default function Home() {
   return (
@@ -40,8 +41,10 @@ export default function Home() {
             </div>
           </div>
         </section>
+        <BedBanner />
         <SaveBig />
-        <TopDeals />
+        {/*<TopDeals />*/}
+        
         <FrequentAskedQuestions />
         <RecommendedProducts />
         <Features />
